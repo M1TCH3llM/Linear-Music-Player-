@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import playlistData from './data/playlists.json';
-import { playTrackByIndex, playNextTrack, playPreviousTrack } from './Utils/utils';
+import { playTrackByIndex, playNextTrack,playPreviousTrack,handleAudioError} from './Utils/utils';
 
 function App() {
   const [playlists, setPlaylists] = useState<any[]>([]);
@@ -11,10 +11,38 @@ function App() {
 
   useEffect(() => {
     setPlaylists(playlistData.playlists);
-    if (playlistData.playlists && playlistData.playlists.length > 0 && playlistData.playlists[0].tracks.length > 0) {
-      setCurrentTrack([]);
+    if (
+      playlistData.playlists &&
+      playlistData.playlists.length > 0 &&
+      playlistData.playlists[0].tracks.length > 0
+    ) {
+      playTrackByIndex(
+        0,
+        0,
+        playlistData.playlists,
+        setCurrentPlaylistIndex,
+        setCurrentTrackIndex,
+        setCurrentTrack,
+        audioRef
+      );
     }
   }, []);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.onerror = () => {
+        handleAudioError(
+          playlists,
+          currentPlaylistIndex,
+          currentTrackIndex,
+          setCurrentPlaylistIndex,
+          setCurrentTrackIndex,
+          setCurrentTrack,
+          audioRef
+        );
+      };
+    }
+  }, [playlists, currentPlaylistIndex, currentTrackIndex, audioRef, setCurrentPlaylistIndex, setCurrentTrackIndex, setCurrentTrack]);
 
   return (
     <div style={{ cursor: 'default' }}>
