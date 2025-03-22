@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import playlistData from './data/playlists.json';
+import { playTrackByIndex, playNextTrack, playPreviousTrack } from './Utils/utils';
 
 function App() {
   const [playlists, setPlaylists] = useState<any[]>([]);
@@ -8,62 +9,51 @@ function App() {
   const [currentPlaylistIndex, setCurrentPlaylistIndex] = useState<number>(0);
   const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(0);
 
-
   useEffect(() => {
-    setPlaylists(playlistData.playlists); 
+    setPlaylists(playlistData.playlists);
+    if (playlistData.playlists && playlistData.playlists.length > 0 && playlistData.playlists[0].tracks.length > 0) {
+      setCurrentTrack([]);
+    }
   }, []);
 
-  const playTrack = (track: any) => {
-    setCurrentTrack(track);
-    if (audioRef.current) {
-      audioRef.current.src = track.url;
-      audioRef.current.play();
-    }
-  };
-
-  const playTrackByIndex = (playlistIndex: number, trackIndex: number) => {
-    if (playlists[playlistIndex] && playlists[playlistIndex].tracks[trackIndex]) {
-      const track = playlists[playlistIndex].tracks[trackIndex];
-      setCurrentPlaylistIndex(playlistIndex);
-      setCurrentTrackIndex(trackIndex);
-      playTrack(track);
-    }
-  };
-
-  const playNextTrack = () => {
-    if (!playlists.length || !playlists[currentPlaylistIndex]) return;
-
-    const currentPlaylist = playlists[currentPlaylistIndex];
-    const nextTrackIndex = currentTrackIndex + 1;
-
-    if (nextTrackIndex < currentPlaylist.tracks.length) {
-      playTrackByIndex(currentPlaylistIndex, nextTrackIndex);
-    } else if (currentPlaylistIndex + 1 < playlists.length) {
-      playTrackByIndex(currentPlaylistIndex + 1, 0);
-    }
-  };
-
-  const playPreviousTrack = () => {
-    if (!playlists.length || !playlists[currentPlaylistIndex]) return;
-
-    if (currentTrackIndex > 0) {
-      playTrackByIndex(currentPlaylistIndex, currentTrackIndex - 1);
-    } else if (currentPlaylistIndex > 0) {
-      const previousPlaylist = playlists[currentPlaylistIndex - 1];
-      playTrackByIndex(currentPlaylistIndex - 1, previousPlaylist.tracks.length - 1);
-    }
-  };
-
   return (
-    <div>
+    <div style={{ cursor: 'default' }}>
       <h1>Music Player</h1>
       {currentTrack && (
         <div>
           <p>Now playing: {currentTrack.name}</p>
           <audio ref={audioRef} controls />
           <div>
-            <button onClick={playPreviousTrack}>Previous</button>
-            <button onClick={playNextTrack}>Next</button>
+            <button
+              onClick={() =>
+                playPreviousTrack(
+                  playlists,
+                  currentPlaylistIndex,
+                  currentTrackIndex,
+                  setCurrentPlaylistIndex,
+                  setCurrentTrackIndex,
+                  setCurrentTrack,
+                  audioRef
+                )
+              }
+            >
+              Previous
+            </button>
+            <button
+              onClick={() =>
+                playNextTrack(
+                  playlists,
+                  currentPlaylistIndex,
+                  currentTrackIndex,
+                  setCurrentPlaylistIndex,
+                  setCurrentTrackIndex,
+                  setCurrentTrack,
+                  audioRef
+                )
+              }
+            >
+              Next
+            </button>
           </div>
         </div>
       )}
@@ -72,7 +62,21 @@ function App() {
           <h2>{playlist.name}</h2>
           <ul>
             {playlist.tracks.map((track: any, trackIndex: number) => (
-              <li key={trackIndex} onClick={() => playTrack(track)} style={{ cursor: 'pointer' }}>
+              <li
+                key={trackIndex}
+                onClick={() =>
+                  playTrackByIndex(
+                    index,
+                    trackIndex,
+                    playlists,
+                    setCurrentPlaylistIndex,
+                    setCurrentTrackIndex,
+                    setCurrentTrack,
+                    audioRef
+                  )
+                }
+                style={{ cursor: 'pointer' }}
+              >
                 {track.name}
               </li>
             ))}
