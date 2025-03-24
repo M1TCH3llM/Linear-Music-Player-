@@ -72,23 +72,22 @@ export const playTrack = (
   };
 
   export const handleAudioError = (
-    playlists: any[],
-    currentPlaylistIndex: number,
-    currentTrackIndex: number,
-    setCurrentPlaylistIndex: React.Dispatch<React.SetStateAction<number>>,
-    setCurrentTrackIndex: React.Dispatch<React.SetStateAction<number>>,
-    setCurrentTrack: React.Dispatch<React.SetStateAction<any>>,
-    audioRef: React.RefObject<HTMLAudioElement>
-  ) => {
-    console.error('Error loading audio. Playing next track.');
-    playNextTrack(
-      playlists,
-      currentPlaylistIndex,
-      currentTrackIndex,
-      setCurrentPlaylistIndex,
-      setCurrentTrackIndex,
-      setCurrentTrack,
-      audioRef
-    );
-  };
-  
+  playlists: any[],
+  currentPlaylistIndex: number,
+  currentTrackIndex: number,
+  setCurrentPlaylistIndex: React.Dispatch<React.SetStateAction<number>>,
+  setCurrentTrackIndex: React.Dispatch<React.SetStateAction<number>>,
+  setCurrentTrack: React.Dispatch<React.SetStateAction<any>>,
+  audioRef: React.RefObject<HTMLAudioElement>
+) => {
+  console.error('Error loading audio. Playing next track.');
+  playNextTrack(
+    playlists,
+    currentPlaylistIndex,
+    currentTrackIndex,
+    setCurrentPlaylistIndex,
+    setCurrentTrackIndex,
+    setCurrentTrack,
+    audioRef
+  );
+};

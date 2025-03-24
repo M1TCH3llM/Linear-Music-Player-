@@ -140,7 +140,7 @@ function App() {
         <div>
           <p>Now playing: {currentTrack.name}</p>
           <audio ref={audioRef} controls />
-          <div>
+          <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
             <button onClick={playPrevious}>Previous</button>
             <button onClick={playNext}>Next</button>
             <button onClick={shufflePlaylist}>
