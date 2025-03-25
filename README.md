@@ -2,8 +2,6 @@
 
 ![Midea Player Screen Shot](/Public/MediaPlayer.png)
 
-Hey, thanks for taking the time to work on this exercise. We're excited to see what you came up with – the goal was to create an audio player for playing a predefined playlist of audio files. Think of it like a stripped-down version of Spotify or the classic Winamp.
-
 ## Getting Started
 
 This project is a React-based audio player that allows users to play through a predefined playlist of audio files.
