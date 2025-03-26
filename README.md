@@ -2,6 +2,10 @@
 
 ![Midea Player Screen Shot](/Public/MediaPlayer.png)
 
+## Live Demo
+
+Check out the live version of the application here: [Media Player](https://musicplayermitch.netlify.app/)
+
 ## Getting Started
 
 This project is a React-based audio player that allows users to play through a predefined playlist of audio files.
